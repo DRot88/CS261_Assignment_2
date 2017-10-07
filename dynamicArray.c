@@ -91,8 +91,16 @@ void deleteDynArr(DynArr *v)
 */
 void _dynArrSetCapacity(DynArr *v, int newCap)
 {	
-	/* FIXME: You will write this function */
-	
+	assert(v->data != 0);
+	struct DynArr newDynArray;
+	initDynArr(&newDynArray, newCap);
+
+	int i;
+	for(int i = 0; i < v->size; i++) {
+		addDynArr(&newDynArray, v->data[i]);
+	}
+	freeDynArr(v);
+	*v = newDynArray;
 }
 
 /* Get the size of the dynamic array
@@ -118,8 +126,12 @@ int sizeDynArr(DynArr *v)
 */
 void addDynArr(DynArr *v, TYPE val)
 {
-	/* FIXME: You will write this function */
+	if (v->size >= v->capacity) {
+		_dynArrSetCapacity(v, (2*v->capacity));
+	}
 
+	v->data[v->size] = val;
+	v->size++;
 }
 
 /*	Get an element from the dynamic array from a specified position
@@ -136,9 +148,11 @@ void addDynArr(DynArr *v, TYPE val)
 TYPE getDynArr(DynArr *v, int pos)
 {
 	/* FIXME: You will write this function */
-
+	assert(v->data != 0);
+	assert(v->size > 0);
+	assert((pos >= 0) && (pos < v->size));	
 	/* FIXME: you must change this return value */
-	return 1; 
+	return v->data[pos]; 
 }
 
 /*	Put an item into the dynamic array at the specified location,
