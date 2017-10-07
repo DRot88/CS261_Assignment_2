@@ -168,7 +168,10 @@ TYPE getDynArr(DynArr *v, int pos)
 */
 void putDynArr(DynArr *v, int pos, TYPE val)
 {
-	/* FIXME: You will write this function */
+	assert(v->data != 0);
+	assert(v->size != 0);
+	assert((pos >= 0) && (pos < v->size));	
+	v->data[pos] = val;
 }
 
 /*	Swap two specified elements in the dynamic array
@@ -182,7 +185,15 @@ void putDynArr(DynArr *v, int pos, TYPE val)
 */
 void swapDynArr(DynArr *v, int i, int  j)
 {
-	/* FIXME: You will write this function */
+	assert(v->data != 0);
+	assert(v->size != 0);
+	assert((i >= 0) && (j >= 0));
+	assert((i < v->size) && (j < v->size));
+
+	int temp;
+	temp = v->data[i];
+	v->data[i] = v->data[j];
+	v->data[j] = temp;
 }
 
 /*	Remove the element at the specified location from the array,
@@ -198,10 +209,17 @@ void swapDynArr(DynArr *v, int i, int  j)
 */
 void removeAtDynArr(DynArr *v, int idx)
 {
-	/* FIXME: You will write this function */
+	assert(v->data != 0);
+	assert(v->size != 0);
+	assert((idx < v->size) && (idx >= 0));
+	int x;
+	for(x = idx; x < v->size - 1; x++) {
+		v->data[x] = v->data[x+1]; 
+	}
+
+	v->size--;
+
 }
-
-
 
 /* ************************************************************************
 	Stack Interface Functions
@@ -217,10 +235,10 @@ void removeAtDynArr(DynArr *v, int idx)
 */
 int isEmptyDynArr(DynArr *v)
 {
-	/* FIXME: You will write this function */
-	
-	/* FIXME:  You will change this return value*/
-	return 1;
+	if (v->data == 0) {
+		return 1;
+	}
+	return 0;
 }
 
 /* 	Push an element onto the top of the stack
@@ -228,13 +246,18 @@ int isEmptyDynArr(DynArr *v)
 	param:	v		pointer to the dynamic array
 	param:	val		the value to push onto the stack
 	pre:	v is not null
-	post:	size increases by 1
+	post:	size increases by 1  
 			if reached capacity, capacity is doubled
 			val is on the top of the stack
 */
 void pushDynArr(DynArr *v, TYPE val)
 {
-	/* FIXME: You will write this function */
+	assert(!isEmptyDynArr(v));
+	v->data[v->size] = val;
+	v->size++;
+	if (v->size >= v->capacity) {
+		_dynArrSetCapacity(v, (2*v->capacity));
+	}
 }
 
 /*	Returns the element at the top of the stack 
@@ -246,10 +269,9 @@ void pushDynArr(DynArr *v, TYPE val)
 */
 TYPE topDynArr(DynArr *v)
 {
-	/* FIXME: You will write this function */
+	assert(!isEmptyDynArr(v));
 	
-	/* FIXME: You will change this return value*/
-	return 1;
+	return v->data[v->size-1];
 }
 
 /* Removes the element on top of the stack 
@@ -262,7 +284,8 @@ TYPE topDynArr(DynArr *v)
 */
 void popDynArr(DynArr *v)
 {
-	/* FIXME: You will write this function */
+	assert(!isEmptyDynArr(v));
+	v->size -= 1;
 }
 
 /* ************************************************************************
@@ -282,11 +305,14 @@ void popDynArr(DynArr *v)
 */
 int containsDynArr(DynArr *v, TYPE val)
 {
-	/* FIXME: You will write this function */
-	
-	/* FIXME:  You will change this return value */
-	return 1;
-
+	assert(!isEmptyDynArr(v));
+	int i;
+	for (i = 0; i < v->size; i++) {
+		if (EQ(v->data[i], val)) {
+			return 1;
+		}
+	}
+	return 0;
 }
 
 /*	Removes the first occurrence of the specified value from the collection
@@ -301,5 +327,13 @@ int containsDynArr(DynArr *v, TYPE val)
 */
 void removeDynArr(DynArr *v, TYPE val)
 {
-	/* FIXME: You will write this function */
+	assert(!isEmptyDynArr(v));
+	int i;
+	for (i = 0; i < v->size; i++) {
+		if (EQ(v->data[i], val)) {
+			removeAtDynArr(v, i);
+			return;
+		}
+	}
+	return;
 }
