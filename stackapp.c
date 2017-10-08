@@ -39,6 +39,7 @@ int isBalanced(char* s)
 	char lastAddedToStack;
 	while (nextCh != '\0') {
 		if (nextCh == '(' || nextCh == '[' || nextCh == '{') {
+
 			if (nextCh == '(') {		
 				pushDynArr(dyn, ')');
 				lastAddedToStack = ')';
@@ -57,32 +58,19 @@ int isBalanced(char* s)
 
 		if (nextCh == ')' || nextCh == ']' || nextCh == '}') {
 			if (nextCh == lastAddedToStack) {
-				popDynArr(dyn);
+
+				if (sizeDynArr(dyn) > 0) {
+					popDynArr(dyn);
+				} else {
+						return 0;
+				}
+
 				if (sizeDynArr(dyn) > 0) {
 					lastAddedToStack = topDynArr(dyn);
 				}
-			}
-			// if (nextCh == ')') {
-			// 	if (topDynArr(dyn) == nextCh) {
-			// 		assert(!isEmptyDynArr(dyn));
-			// 		printf("Hey! - ')' to be popped\n");
-			// 		popDynArr(dyn);
-			// 	}
-			// }
-
-			// if (nextCh == ']') {
-			// 	if (topDynArr(dyn) == nextCh) {
-			// 		assert(!isEmptyDynArr(dyn));
-			// 		popDynArr(dyn);
-			// 	}				
-			// }
-
-			// if (nextCh == '}') {
-			// 	if (topDynArr(dyn) == nextCh) {
-			// 		assert(!isEmptyDynArr(dyn));
-			// 		popDynArr(dyn);
-			// 	}					
-			// }						
+			}	else {
+					return 0;
+			}				
 		}		
 
 		nextCh = nextChar(s);
