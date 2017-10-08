@@ -235,7 +235,7 @@ void removeAtDynArr(DynArr *v, int idx)
 */
 int isEmptyDynArr(DynArr *v)
 {
-	if (v->data == 0) {
+	if (v->size == 0) {
 		return 1;
 	}
 	return 0;
@@ -252,7 +252,7 @@ int isEmptyDynArr(DynArr *v)
 */
 void pushDynArr(DynArr *v, TYPE val)
 {
-	assert(!isEmptyDynArr(v));
+	assert(v != 0);
 	v->data[v->size] = val;
 	v->size++;
 	if (v->size >= v->capacity) {

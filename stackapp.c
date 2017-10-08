@@ -1,6 +1,7 @@
 /*	stack.c: Stack application. */
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "dynArray.h"
 
 
@@ -31,7 +32,66 @@ char nextChar(char* s)
 */
 int isBalanced(char* s)
 {
-	/* FIXME: You will write this function */		
+	assert(s != '\0');
+	DynArr *dyn;
+	dyn = newDynArr(10);
+	char nextCh = nextChar(s);
+	char lastAddedToStack;
+	while (nextCh != '\0') {
+		if (nextCh == '(' || nextCh == '[' || nextCh == '{') {
+			if (nextCh == '(') {		
+				pushDynArr(dyn, ')');
+				lastAddedToStack = ')';
+			}
+
+			if (nextCh == '[') {
+				pushDynArr(dyn, ']');
+				lastAddedToStack = ']';
+			}
+
+			if (nextCh == '{') {
+				pushDynArr(dyn, '}');
+				lastAddedToStack = '}';
+			}						
+		}
+
+		if (nextCh == ')' || nextCh == ']' || nextCh == '}') {
+			if (nextCh == lastAddedToStack) {
+				popDynArr(dyn);
+				if (sizeDynArr(dyn) > 0) {
+					lastAddedToStack = topDynArr(dyn);
+				}
+			}
+			// if (nextCh == ')') {
+			// 	if (topDynArr(dyn) == nextCh) {
+			// 		assert(!isEmptyDynArr(dyn));
+			// 		printf("Hey! - ')' to be popped\n");
+			// 		popDynArr(dyn);
+			// 	}
+			// }
+
+			// if (nextCh == ']') {
+			// 	if (topDynArr(dyn) == nextCh) {
+			// 		assert(!isEmptyDynArr(dyn));
+			// 		popDynArr(dyn);
+			// 	}				
+			// }
+
+			// if (nextCh == '}') {
+			// 	if (topDynArr(dyn) == nextCh) {
+			// 		assert(!isEmptyDynArr(dyn));
+			// 		popDynArr(dyn);
+			// 	}					
+			// }						
+		}		
+
+		nextCh = nextChar(s);
+	}
+
+	if (isEmptyDynArr(dyn)) {
+		return 1;
+	}
+
 	return 0;
 }
 
