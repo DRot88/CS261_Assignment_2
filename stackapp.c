@@ -58,10 +58,10 @@ int isBalanced(char* s)
 
 		if (nextCh == ')' || nextCh == ']' || nextCh == '}') {
 			if (nextCh == lastAddedToStack) {
-
 				if (sizeDynArr(dyn) > 0) {
 					popDynArr(dyn);
 				} else {
+						deleteDynArr(dyn);
 						return 0;
 				}
 
@@ -69,6 +69,7 @@ int isBalanced(char* s)
 					lastAddedToStack = topDynArr(dyn);
 				}
 			}	else {
+					deleteDynArr(dyn);
 					return 0;
 			}				
 		}		
@@ -77,9 +78,10 @@ int isBalanced(char* s)
 	}
 
 	if (isEmptyDynArr(dyn)) {
+		deleteDynArr(dyn);
 		return 1;
 	}
-
+	deleteDynArr(dyn);
 	return 0;
 }
 
