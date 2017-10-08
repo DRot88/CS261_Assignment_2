@@ -23,7 +23,6 @@ int main(int argc, char* argv[]){
 
 	DynArr *dyn;
 	dyn = newDynArr(2);
-        int i; 
 
 	printf("\n\nTesting addDynArr...\n");
 	addDynArr(dyn, 3);
@@ -84,5 +83,6 @@ int main(int argc, char* argv[]){
 	printf("Removing 3...\nThe stack's content: [6,5,9]\n");
 	assertTrue(!containsDynArr(dyn, 3), "Test not containing 3");
 	
+	deleteDynArr(dyn);
 	return 0;
 }
